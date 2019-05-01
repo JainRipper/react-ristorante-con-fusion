@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/react-confusion-beta/precache-manifest.2b786d8c241431adca126f6011c7c472.js"
+  "/react-confusion-beta/precache-manifest.16712429b699d9f8aaf44cf00e4b6f4c.js"
 );
 
 workbox.clientsClaim();

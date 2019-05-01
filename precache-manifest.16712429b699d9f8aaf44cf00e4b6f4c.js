@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/react-confusion-beta/static/media/fontawesome-webfont.af7ae505.woff2"
   },
   {
-    "revision": "a26bc3860903e6b89ac5",
+    "revision": "da36cc6fbc957bf6cf5d",
     "url": "/react-confusion-beta/static/css/main.32d547d2.chunk.css"
   },
   {
@@ -12,16 +12,16 @@ self.__precacheManifest = [
     "url": "/react-confusion-beta/static/media/fontawesome-webfont.912ec66d.svg"
   },
   {
-    "revision": "b4da40ced69749541224",
-    "url": "/react-confusion-beta/static/js/1.b4da40ce.chunk.js"
+    "revision": "56d06f5ba9bb16addd84",
+    "url": "/react-confusion-beta/static/js/1.56d06f5b.chunk.js"
   },
   {
     "revision": "e48c46d95e8e3ebe3ca6",
     "url": "/react-confusion-beta/static/js/runtime~main.e48c46d9.js"
   },
   {
-    "revision": "a26bc3860903e6b89ac5",
-    "url": "/react-confusion-beta/static/js/main.a26bc386.chunk.js"
+    "revision": "da36cc6fbc957bf6cf5d",
+    "url": "/react-confusion-beta/static/js/main.da36cc6f.chunk.js"
   },
   {
     "revision": "fee66e712a8a08eef5805a46892932ad",
@@ -36,11 +36,11 @@ self.__precacheManifest = [
     "url": "/react-confusion-beta/static/media/fontawesome-webfont.b06871f2.ttf"
   },
   {
-    "revision": "b4da40ced69749541224",
+    "revision": "56d06f5ba9bb16addd84",
     "url": "/react-confusion-beta/static/css/1.e9c4cbe6.chunk.css"
   },
   {
-    "revision": "a6a72c5342378b65e02945cf2cc0cc2e",
+    "revision": "757e8b71993842a0645c8b96fc91711c",
     "url": "/react-confusion-beta/index.html"
   }
 ];
