@@ -3,67 +3,94 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
     Button, Modal, ModalHeader, ModalBody, Label, FormGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val) && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 
-    function RenderDish({dish}) {
-        return(
-            <div className="col-12 col-md-5 m-1">
+function RenderDish({dish}) {
+    return (
+        <div className="col-12 col-md-5 m-1">
+            <FadeTransform in transformProps={{exitTransform: 'scale(0.5) translateY(-50%)'}}>
                 <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
+            </FadeTransform>
+        </div>
+    )
+} 
+
+function RenderComments({comments, postComment, dishId}) {
+    if (comments != null) {
+        const commentList = comments.map(comment => {
+            return (
+            <div>
+                <ul className="list-unstyled">
+                    <Stagger in>
+                        <Fade in>
+                            <li key={comment.id}>
+                            <p> {comment.comment} </p>
+                            <p>-- {comment.author}, <span> </span>
+                            {new Intl.DateTimeFormat('en-US', 
+                                {   year: 'numeric',
+                                    month: 'short',
+                                    day: '2-digit'
+                                }).format(new Date(Date.parse(comment.date)))} </p>
+                            </li>
+                        </Fade>
+                    </Stagger>
+                </ul>
+            </div>
+            );
+        });
+    
+        return (
+            <div className="col-12 col-md-5 m-1">
+                <h4>Comments</h4>
+                    <div>
+                        {commentList}
+                    </div>
+                    <CommentForm dishId={dishId} postComment={postComment} />
             </div>
         );
-    }
-
-    function RenderComments({comments}) {
-        if (comments != null) {
-            const commentList = comments.map(comment => {
-                return (
-                <div>
-                    <ul className="list-unstyled">
-                        <li key={comment.id}>
-                        <p> {comment.comment} </p>
-                        <p>-- {comment.author}, <span> </span>
-                        {new Intl.DateTimeFormat('en-US', 
-                            {   year: 'numeric',
-                                month: 'short',
-                                day: '2-digit'
-                            }).format(new Date(Date.parse(comment.date)))} </p>
-                        </li>
-                    </ul>
-                </div>
-                );
-            });
-
-            return (
-                <div className="col-12 col-md-5 m-1">
-                    <h4>Comments</h4>
-                        <div>
-                            {commentList}
-                        </div>
-                        <CommentForm />
-                </div>
-            );
         }
         else {
-            return(
+            return (
                 <div></div>
             );
         }
-    }
+}
 
-    const Dishdetail = (props) => {
-        if (props.dish != null) {
-            return (
-                <div className="container">
+const DishDetail = (props) => {
+    if (props.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (props.errMess) {
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+    else if (props.dish != null) {
+        return(
+            <div className="container">
                 <div className="row">
                     <Breadcrumb>
                         <BreadcrumbItem><Link to='/menu'>Menu</Link></BreadcrumbItem>
@@ -76,16 +103,19 @@ const isNumber = (val) => !isNaN(Number(val));
                 </div>
                 <div className="row">
                     <RenderDish dish={props.dish} />                    
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments} 
+                        postComment={props.postComment}
+                        dishId={props.dish.id} />
                 </div>
             </div>
-            );
-        } else {
-            return(
-                <div></div>
-            );
-        }
-      }
+        );
+    }
+    else {
+        return(
+            <div></div>
+        );
+    }
+}
 
 class CommentForm extends Component {
     constructor(props) {
@@ -105,12 +135,12 @@ class CommentForm extends Component {
     
     handleSubmit(values) {
         this.toggleModal();
-        alert('Current State is: ' + JSON.stringify(values));
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     render() {
         return(
-            <>
+            <React.Fragment>
                 <Button outline onClick={this.toggleModal}>
                     <span className="fa fa-pencil fa-lg"></span> Submit Comment
                 </Button>
@@ -151,9 +181,9 @@ class CommentForm extends Component {
                         </LocalForm>
                     </ModalBody>
                 </Modal>
-            </>
+            </React.Fragment>
         )
     }
-}      
+}
 
-export default Dishdetail; 
+export default DishDetail;
